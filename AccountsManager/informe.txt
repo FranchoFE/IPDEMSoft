@@ -1,7 +1,0 @@
-Tarea Integración de VTS grado de avance 73%
-Tarea SAE de VTS grado de avance 73%. El plan inicial era de 112 días, pero ahora consideramos 128.0 días
-Tarea SPF de VTS grado de avance 104%
-Tarea SGA de VTS grado de avance 182%
-Tarea SCE de VTS grado de avance 40%
-Tarea DominioPMS de Infraestructura Lógica grado de avance 78%
-Tarea PruebasDespliegue de Infraestructura Lógica grado de avance 71%
