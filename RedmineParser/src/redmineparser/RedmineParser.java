@@ -42,6 +42,8 @@ public class RedmineParser {
         columns.add ("Asunto");
         columns.add ("Asignado a");
         columns.add ("% Realizado");
+        columns.add ("Tiempo estimado");
+        columns.add ("Tiempo dedicado");
         
         HashMap<String, RedmineTaskFilter> filters = new HashMap<>();
         /*
