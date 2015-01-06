@@ -63,7 +63,12 @@ Temporary Items
 *.rar
 *.tar
 *.zip
+
+# Added by GUI #
+################
 *.netbeans_automatic_build
 *.netbeans_update_resources
 AccountsManager/build/classes/accountsManager/AccountMainFrame.form
 RedmineParser/build/classes/redmineparser/RedmineParserFrame.form
+SostratPMSInterface/build/classes/META-INF/jax-ws-catalog.xml
+SostratPMSInterface/build/classes/META-INF/wsdl/10.132.247.92/Mars.Extension.ServiceMixWeb/ServiceMixEx.asmx.wsdl
