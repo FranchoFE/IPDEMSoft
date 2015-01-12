@@ -2,12 +2,12 @@ import mysql.connector
 import datetime
 import sys
 
-query = "SELECT pointId, Concept, date, value, accountID FROM am_point WHERE (Concept = %s AND date = %s AND value = %s AND accountId = %s)"
+query = "SELECT pointId, Concept, insertDate, value, accountID FROM am_point WHERE (Concept = %s AND NOT (insertDate = %s) AND value = %s AND accountId = %s)"
 queryAccount = "SELECT id FROM am_accounts WHERE name = %s"
-insertPointSQL = "INSERT INTO am_point (Concept, value, date, validDate, accountId) VALUES (%s, %s, %s, %s, %s)"
+insertPointSQL = "INSERT INTO am_point (Concept, value, date, validDate, accountId, insertDate) VALUES (%s, %s, %s, %s, %s, %s)"
 
-def insertPoint(name, value, date, validDate, accountIndex):
-    params = (name, value, date, validDate, accountIndex)
+def insertPoint(name, value, date, validDate, accountIndex, insertDate):
+    params = (name, value, date, validDate, accountIndex, insertDate)
     #print ("InsertPoint " + str(params))
     cursor2.execute(insertPointSQL, params)
 
@@ -22,8 +22,8 @@ def existsAccount(accountName):
         row = cursor.fetchone()
     return result
 
-def existsPoint(name, date, value, accountIndex):
-    params = (name, date, value, accountIndex)
+def existsPoint(name, insertDate, value, accountIndex):
+    params = (name, insertDate, value, accountIndex)
     #print ("ExitsPoint " + str(params))
     result = 0
     test = cursor.execute(query, params)
@@ -37,6 +37,7 @@ def existsPoint(name, date, value, accountIndex):
 
 def readAccount(fileName, accountName):
     accountIndex = existsAccount(accountName)
+    actualDate = datetime.datetime.now()
     if accountIndex != -1:
         f = open(fileName)
         existing = 0
@@ -59,9 +60,9 @@ def readAccount(fileName, accountName):
                     date = datetime.date(int(dateString[7:11]), int(dateString[4:6]), int(dateString[1:3]))
                     validDate = datetime.date(int(validDateString[7:11]), int(validDateString[4:6]),
                                               int(validDateString[1:3]))
-                    result = existsPoint(name, date, value, accountIndex)
+                    result = existsPoint(name, actualDate, value, accountIndex)
                     if result == 0:
-                        insertPoint(name, value, date, validDate, accountIndex)
+                        insertPoint(name, value, date, validDate, accountIndex, actualDate)
                         inserted = inserted + 1
                     elif result == 1:
                         print ("Cuidado el apunte ya existia: " + line)

@@ -41,3 +41,11 @@ Icon
 Network Trash Folder
 Temporary Items
 .apdisk
+
+AccountsManager/build/classes/.netbeans_automatic_build
+
+AccountsManager/build/classes/.netbeans_update_resources
+
+*.class
+
+AccountsManager/build/classes/accountsManager/AccountMainFrame.form
