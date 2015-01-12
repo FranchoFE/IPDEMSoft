@@ -1,6 +1,6 @@
-1-Nombre;2-Proyecto;4-Estimado Inicial;5-Estimado;6-Dedicado;7-% Dedicado;3-Tareas;9-Desvio Actual;Fecha Final;8-Pendiente;
+1-Nombre;2-Proyecto;4-Estimado Inicial;5-Estimado;6-Dedicado;7-% Dedicado;3-Tareas;9-Proyectado;Fecha Final;8-Pendiente;
 Integración;VTS;152;;;;35274,35243,35700,36213,36308,36307;;20/11/14;;
-SAE;VTS;112;;;;35757,35797,35886,35885,35884,35883,35846,35845;;05/12/14;;
+SAE;VTS;112;;;;35757,35797,35886,35885,35884,35883,35846,35845,36676,36675;;05/12/14;;
 SCT;VTS;22;;;;;;09/12/14;;
 SPF;VTS;72;;;;35674,35673,35672;;17/11/14;;
 SST;VTS;224;;;;;;29/01/15;;

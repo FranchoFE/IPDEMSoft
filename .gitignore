@@ -42,10 +42,33 @@ Network Trash Folder
 Temporary Items
 .apdisk
 
-AccountsManager/build/classes/.netbeans_automatic_build
-
-AccountsManager/build/classes/.netbeans_update_resources
-
+# Compiled source #
+###################
+*.com
 *.class
+*.dll
+*.exe
+*.o
+*.so
 
+# Packages #
+############
+# it's better to unpack these files and commit the raw source
+# git has its own built in compression methods
+*.7z
+*.dmg
+*.gz
+*.iso
+*.jar
+*.rar
+*.tar
+*.zip
+
+# Added by GUI #
+################
+*.netbeans_automatic_build
+*.netbeans_update_resources
 AccountsManager/build/classes/accountsManager/AccountMainFrame.form
+RedmineParser/build/classes/redmineparser/RedmineParserFrame.form
+SostratPMSInterface/build/classes/META-INF/jax-ws-catalog.xml
+SostratPMSInterface/build/classes/META-INF/wsdl/10.132.247.92/Mars.Extension.ServiceMixWeb/ServiceMixEx.asmx.wsdl
