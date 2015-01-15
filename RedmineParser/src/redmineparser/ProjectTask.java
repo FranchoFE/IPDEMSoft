@@ -37,12 +37,6 @@ class ProjectTask extends RedmineTask
         {
             addElement (split[i]);
         }
-        String initialEstimated = task.getValue ("4-Estimado Inicial");
-        if (initialEstimated != null)
-        {
-            initialEstimated += " (" + (Integer.valueOf(initialEstimated)/8) + ")";
-            mElements.put("4- Estimado Inicial", initialEstimated);
-        }
     }
 
     void addElement(String element)
