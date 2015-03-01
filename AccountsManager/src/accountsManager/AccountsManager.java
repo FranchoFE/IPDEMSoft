@@ -11,6 +11,11 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.sql.Connection;
+import java.sql.Date;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.HashMap;
 import java.util.LinkedList;
 
@@ -23,19 +28,26 @@ public class AccountsManager {
     /**
      * @param args the command line arguments
      */
-    public static void main(String[] args) throws FileNotFoundException, IOException 
+    public static void main(String[] args) throws FileNotFoundException, IOException, SQLException 
     {
-               
+        LinkedList<Account> accounts = readAccountsFromDB(); 
+        readPointsFromDB(accounts);     
         
-        Account account = readAccount("Accounts\\Cuenta_00651366140001014248.csv", "14248");
+        /*
+        Account account = readAccountFromFile("Accounts\\Cuenta_00651366140001014248.csv", "14248");
         System.out.println ("Total 14248: " + account.calcMovementsTotal());
         
-        Account account2 = readAccount("Accounts\\Cuenta_00651366140001028303.csv", "28303");
+        Account account2 = readAccountFromFile("Accounts\\Cuenta_00651366140001028303.csv", "28303");
         System.out.println ("Total 28303: " + account2.calcMovementsTotal());
-        
+        */
+                
         AccountMainFrame frame = new AccountMainFrame();
-        frame.setAccount (account);
-        frame.setAccount (account2);
+        //frame.setAccount (account);
+        //frame.setAccount (account2);
+        for (Account account : accounts)
+        {
+            frame.setAccount (account);
+        }
         frame.showAccounts();
         frame.setVisible (true);
     }
@@ -58,7 +70,7 @@ public class AccountsManager {
         return result;
     }
 
-    private static Account readAccount(String fileName, String name) throws FileNotFoundException, IOException {
+    private static Account readAccountFromFile(String fileName, String name) throws FileNotFoundException, IOException {
                         
         InputStreamReader isr = new InputStreamReader (new FileInputStream(fileName));
         BufferedReader br = new BufferedReader(isr);
@@ -104,6 +116,59 @@ public class AccountsManager {
             lineReaded = br.readLine();
         }
         return account;
+    }
+
+    private static void readPointsFromDB(LinkedList<Account> accounts) throws SQLException {
+        MyDBConnection mdbc = new MyDBConnection();
+        mdbc.init();
+        Connection conn=mdbc.getMyConnection();
+        
+        for (Account account : accounts)
+        {
+            Statement stmt = conn.createStatement();
+            ResultSet executeQuery = stmt.executeQuery("select Concept,value,Date,ValidDate from am_point where accountId = " + account.getId());
+            while (executeQuery.next())
+            {
+                String concept = executeQuery.getString("Concept");
+                Integer value = executeQuery.getInt("value");
+                Date date = executeQuery.getDate("Date");
+                Date validDate = executeQuery.getDate("ValidDate");
+                
+                AccountPoint point = new AccountPoint();
+                point.addParameter("Concepto", concept);
+                point.addParameter("Importe", "" + value);
+                point.addParameter("Fecha Operaci n", "" + date);
+                point.addParameter("Fecha Valor", "" + validDate);
+                account.add(point);
+            }
+            executeQuery.close();
+            stmt.close();
+        }
+        
+        mdbc.destroy();
+    }
+    
+    private static LinkedList<Account> readAccountsFromDB() throws SQLException {
+        LinkedList<Account> accounts = new LinkedList<Account>();
+        
+        MyDBConnection mdbc = new MyDBConnection();
+        mdbc.init();
+        Connection conn=mdbc.getMyConnection();
+        Statement stmt = conn.createStatement();
+        ResultSet executeQuery = stmt.executeQuery("select id,name from am_accounts");
+        while (executeQuery.next())
+        {
+            String name = executeQuery.getString("name");
+            Integer id = executeQuery.getInt("id");
+            
+            Account account = new Account(id, name);
+            accounts.add (account);
+        }
+        executeQuery.close();
+        stmt.close();
+        mdbc.destroy();
+        
+        return accounts;
     }
     
 }

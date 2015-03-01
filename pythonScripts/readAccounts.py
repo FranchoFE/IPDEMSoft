@@ -59,13 +59,13 @@ def getAccountPointValuesING (line):
     line = line[:-1]
     values = line.split(";")
     result = ()
-    if len(values) == 5:
+    if len(values) == 4:
         name = values[1]
         name = name.replace(".", "")
         name = name.replace("\xff", "")
         name = name.replace("\x98", "")
         valueString = values[2]
-        valueString = valueString[:-2]
+        valueString = valueString[:-4]
         value = valueString.replace(",", "")
         value = valueString.replace(".", "")
         dateString = values[0]

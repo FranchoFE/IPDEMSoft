@@ -7,6 +7,9 @@
 package accountsManager;
 
 import java.util.LinkedList;
+import javax.swing.JTable;
+import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableModel;
 
 /**
  *
@@ -20,6 +23,9 @@ public class AccountMainFrame extends javax.swing.JFrame {
      */
     public AccountMainFrame() {
         initComponents();
+        
+        setSize(1200, 800);
+        setLocation(200, 100);
     }
 
     /**
@@ -71,16 +77,73 @@ public class AccountMainFrame extends javax.swing.JFrame {
     void setAccount(Account account) {
         accounts.add (account);
     }
-
+ 
     void showAccounts() {
-        for (Account account: accounts)
+        for (Account account: accounts) 
         {
             javax.swing.JPanel panel = new javax.swing.JPanel();
-            javax.swing.JLabel label = new javax.swing.JLabel();
             panel.setName (account.getName());
-            label.setText(account.getFileName());
-            panel.add(label);
+            panel.setLayout(new java.awt.GridBagLayout());
+            
+            javax.swing.JLabel label = new javax.swing.JLabel();
+            java.awt.GridBagConstraints gridBagConstraints = new java.awt.GridBagConstraints();
+            gridBagConstraints.gridx = 0;
+            gridBagConstraints.gridy = 0;
+            gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+            gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+            gridBagConstraints.weightx = 0.0;
+            gridBagConstraints.weighty = 0.0;
+            gridBagConstraints.insets = new java.awt.Insets(10, 10, 10, 10);
+            panel.add(label, gridBagConstraints);
+            
+            javax.swing.JScrollPane jScrollPane1 = new javax.swing.JScrollPane();
+            javax.swing.JTable jTable1 = new javax.swing.JTable();
+            jTable1.setModel(new javax.swing.table.DefaultTableModel(
+                new Object [][] {
+                    {null, null, null, null}
+                },
+                new String [] {
+                    "Concepto", "Valor", "Fecha", "Fecha Validez"
+                }
+            ));
+            jScrollPane1.setViewportView(jTable1);
+            gridBagConstraints = new java.awt.GridBagConstraints();
+            gridBagConstraints.gridx = 0;
+            gridBagConstraints.gridy = 1;
+            gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+            gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+            gridBagConstraints.weightx = 1.0;
+            gridBagConstraints.weighty = 1.0;
+            gridBagConstraints.insets = new java.awt.Insets(10, 10, 10, 10);
+            panel.add(jScrollPane1, gridBagConstraints);
+
+            // Se añade la pestaña al panel
             mTabbedPane.addTab(account.getName(), panel);
+            
+            int totalValue = addPoints (account, jTable1);
+            label.setText (account.getFileName() + " (" + totalValue + ")");
         }
+    }
+
+    private int addPoints(Account account, JTable table) 
+    {
+        DefaultTableModel model = (DefaultTableModel) table.getModel();
+        model.setNumRows(account.points.size());
+        
+        int total = 0;
+        
+        int i = 0;
+        for (AccountPoint point : account.points)
+        {
+            model.setValueAt(point.concept, i, 0);
+            model.setValueAt(point.value, i, 1);
+            model.setValueAt(point.date, i, 2);
+            model.setValueAt(point.validDate, i, 3);
+            i++;
+            
+            total += point.value;
+        }
+        
+        return total;
     }
 }

@@ -17,11 +17,21 @@ class Account {
     private final String mName;
     LinkedList<AccountPoint> points = new LinkedList<AccountPoint>();
     private final String mFileName;
+    private int mId;
+    
     
     Account(String fileName, String name) 
     {
         mFileName = fileName;    
         mName = name;
+        mId = -1;
+    }
+    
+    Account(int id, String name) 
+    {
+        mFileName = "DB Id: " + id;    
+        mName = name;
+        mId = id;
     }
 
     void add(AccountPoint point) 
@@ -44,6 +54,10 @@ class Account {
 
     String getFileName() {
         return mFileName;
+    }
+
+    Integer getId() {
+        return mId;
     }
     
 }
